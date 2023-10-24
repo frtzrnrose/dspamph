@@ -22,5 +22,9 @@ jobs:
 
       - name: Build and Deploy
         run: |
+          # Authenticate with Firebase using the provided service account key JSON
           echo "$FIREBASE_SERVICE_ACCOUNT_KEY_JSON" > firebase-token.json
-          firebase deploy --token "$(cat firebase-token.json)"
+          npx firebase login:ci --token "$FIREBASE_SERVICE_ACCOUNT_KEY_JSON" # Use npx to run Firebase CLI
+
+          # Deploy to Firebase Hosting
+          npx firebase deploy --token "$(cat firebase-token.json)"
